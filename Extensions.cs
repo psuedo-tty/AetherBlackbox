@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
+using AetherBlackbox.Core;
 using AetherBlackbox.Events;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 
@@ -10,6 +12,22 @@ namespace AetherBlackbox;
 public static class Extensions {
     public static unsafe byte Barrier(this IPlayerCharacter player) {
         return ((Character*)player.Address)->CharacterData.ShieldValue;
+    }
+
+    // Dalamud's IsCasting derefs GetCastInfo() unguarded, and that's null on characters with no
+    // cast info (companions, NPCs still spawning). ClientStructs' own check handles it.
+    public static unsafe bool IsCastingSafe(this IBattleChara chara) {
+        if (chara.Address == IntPtr.Zero) return false;
+        return ((Character*)chara.Address)->IsCasting;
+    }
+
+    public static unsafe ReplayCast GetCastSafe(this IBattleChara chara) {
+        if (chara.Address == IntPtr.Zero) return default;
+        var character = (Character*)chara.Address;
+        if (!character->IsCasting) return default;
+        var info = character->GetCastInfo();
+        if (info == null) return default;
+        return new ReplayCast { ActionId = info->ActionId, Current = info->CurrentCastTime, Total = info->TotalCastTime };
     }
 
     public static CombatEvent.EventSnapshot Snapshot(

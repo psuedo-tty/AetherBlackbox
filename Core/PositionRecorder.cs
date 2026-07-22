@@ -323,7 +323,7 @@ namespace AetherBlackbox.Core
                         Timestamp = snapshotTime,
                         Type = EntityType.Player,
                         Statuses = statusChanged ? player.StatusList.Where(s => s != null).Select(s => new ReplayStatus { Id = s.StatusId, Duration = s.RemainingTime, StackCount = s.Param, SourceId = s.SourceId }).ToList() : null,
-                        Cast = player.IsCasting ? new ReplayCast { ActionId = player.CastActionId, Current = player.CurrentCastTime, Total = player.TotalCastTime } : default,
+                        Cast = player.GetCastSafe(),
                         TargetId = player.TargetObjectId,
                         LastLoggedActionId = actionToLog,
                         OwnerId = player.OwnerId
@@ -340,10 +340,10 @@ namespace AetherBlackbox.Core
                         StatusHash = sHash
                     };
                 }
-                else if (obj is IBattleNpc npc && (npc.MaxHp > 0 || actionToLog != 0 || npc.IsCasting))
+                else if (obj is IBattleNpc npc && (npc.MaxHp > 0 || actionToLog != 0 || npc.IsCastingSafe()))
                 {
                     bool isDead = npc.IsDead;
-                    bool isActive = npc.IsCasting || actionToLog != 0 || shouldRecordMovement || isNewEntity || npc.IsTargetable || npc.MaxHp == 44;
+                    bool isActive = npc.IsCastingSafe() || actionToLog != 0 || shouldRecordMovement || isNewEntity || npc.IsTargetable || npc.MaxHp == 44;
 
                     if (lastRecordedStates.TryGetValue(npc.EntityId, out var state))
                     {
@@ -449,7 +449,7 @@ namespace AetherBlackbox.Core
                         Type = (npc.OwnerId != 0 && npc.OwnerId != 0xE0000000) ? EntityType.Pet : (npc.IsTargetable ? EntityType.Boss : EntityType.Npc),
                         ModelId = (uint)npc.BaseId,
                         Statuses = statusChanged ? replayStatuses : null,
-                        Cast = npc.IsCasting ? new ReplayCast { ActionId = npc.CastActionId, Current = npc.CurrentCastTime, Total = npc.TotalCastTime } : default,
+                        Cast = npc.GetCastSafe(),
                         TargetId = npc.TargetObjectId,
                         LastLoggedActionId = actionToLog,
                         OwnerId = npc.OwnerId
