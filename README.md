@@ -122,8 +122,7 @@ design details: **[architecture.md](./architecture.md)**
 
 Feature requests, bug fixes are welcome. For those that wish to add to this project, please see the above section.
 
-For the project map, (what files to edit to do a specific thing see this document:
-Project map: **[project_map.md](./project_map.md)**
+For the project map, (what files to edit to do a specific thing see this document: **[project_map.md](./project_map.md)**
 
 ---
 
