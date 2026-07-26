@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Game.ClientState.Statuses;
 using AetherBlackbox.Core;
 using AetherBlackbox.Events;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
@@ -28,6 +29,14 @@ public static class Extensions {
         var info = character->GetCastInfo();
         if (info == null) return default;
         return new ReplayCast { ActionId = info->ActionId, Current = info->CurrentCastTime, Total = info->TotalCastTime };
+    }
+
+    // Same footgun as IsCasting: enumerating StatusList derefs GetStatusManager(), null on
+    // characters without one. Empty list instead of NRE.
+    public static unsafe IEnumerable<IStatus> StatusListSafe(this IBattleChara chara) {
+        if (chara.Address == IntPtr.Zero) return Array.Empty<IStatus>();
+        if (((Character*)chara.Address)->GetStatusManager() == null) return Array.Empty<IStatus>();
+        return chara.StatusList;
     }
 
     public static CombatEvent.EventSnapshot Snapshot(

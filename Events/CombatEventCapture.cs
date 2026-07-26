@@ -229,7 +229,7 @@ namespace AetherBlackbox.Events
                         uint sourceId = 0;
                         if (targetObj is IBattleNpc battleNpc)
                         {
-                            var status = battleNpc.StatusList.FirstOrDefault(s => s.StatusId == param1);
+                            var status = battleNpc.StatusListSafe().FirstOrDefault(s => s.StatusId == param1);
                             if (status != null) sourceId = status.SourceId;
                         }
 

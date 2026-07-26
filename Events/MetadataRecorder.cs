@@ -49,7 +49,7 @@ namespace AetherBlackbox.Events
 
             if (obj is IPlayerCharacter pc && (Service.ClientState.TerritoryType == 1197 || Service.ClientState.TerritoryType == 1252 || Service.ClientState.TerritoryType == 1346))
             {
-                foreach (var status in pc.StatusList)
+                foreach (var status in pc.StatusListSafe())
                 {
                     if ((status.StatusId >= 4358 && status.StatusId <= 4369) || (status.StatusId >= 4803 && status.StatusId <= 4805) || (status.StatusId >= 5328 && status.StatusId <= 5335))
                     {

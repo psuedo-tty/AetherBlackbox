@@ -380,7 +380,7 @@ namespace AetherBlackbox.Core
                     catch { }
                     bool statusChanged = lastRecordedStates[npc.EntityId].ObjectId == 0 || sHash != lastRecordedStates[npc.EntityId].StatusHash;
 
-                    var replayStatuses = npc.StatusList?
+                    var replayStatuses = npc.StatusListSafe()
                         .Where(s => s != null)
                         .Select(s => new ReplayStatus
                         {
@@ -389,7 +389,7 @@ namespace AetherBlackbox.Core
                             StackCount = s.Param,
                             SourceId = s.SourceId
                         })
-                        .ToList() ?? new List<ReplayStatus>();
+                        .ToList();
 
                     unsafe
                     {
