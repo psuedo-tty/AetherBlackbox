@@ -47,11 +47,11 @@ namespace AetherBlackbox.Events
                 Type = (EntityType)obj.ObjectKind
             };
 
-            if (obj is IPlayerCharacter pc && (Service.ClientState.TerritoryType == 1197 || Service.ClientState.TerritoryType == 1252))
+            if (obj is IPlayerCharacter pc && (Service.ClientState.TerritoryType == 1197 || Service.ClientState.TerritoryType == 1252 || Service.ClientState.TerritoryType == 1346))
             {
                 foreach (var status in pc.StatusList)
                 {
-                    if (status.StatusId >= 4358 && status.StatusId <= 4805)
+                    if ((status.StatusId >= 4358 && status.StatusId <= 4369) || (status.StatusId >= 4803 && status.StatusId <= 4805) || (status.StatusId >= 5328 && status.StatusId <= 5335))
                     {
                         var statusData = GameDataCache.GetStatus(status.StatusId);
                         history.AddEvent(entityId, new CombatEvent.StatusEffect

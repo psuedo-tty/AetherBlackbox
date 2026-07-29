@@ -406,7 +406,7 @@ namespace AetherBlackbox.Core
                                     uint stParam = statusManager->Status[i].Param;
                                     uint stSourceId = (uint)statusManager->Status[i].SourceObject;
 
-                                    if (stId >= 4358 && stId <= 4805)
+                                    if ((stId >= 4358 && stId <= 4369) || (stId >= 4803 && stId <= 4805) || (stId >= 5328 && stId <= 5335))
                                     {
                                         if (!replayStatuses.Any(x => x.Id == stId))
                                         {
@@ -425,7 +425,7 @@ namespace AetherBlackbox.Core
                     }
 
                     var phantomStatuses = replayStatuses
-                        .Where(s => s.Id >= 4358 && s.Id <= 4805)
+                        .Where(s => (s.Id >= 4358 && s.Id <= 4369) || (s.Id >= 4803 && s.Id <= 4805) || (s.Id >= 5328 && s.Id <= 5335))
                         .ToList();
 
                     if (phantomStatuses.Count > 0 &&

@@ -267,7 +267,7 @@ namespace AetherBlackbox.Windows
                         float timeElapsed = currentTime - frame.TimeOffset;
                         return (Id: status.Id, Remaining: status.Duration - timeElapsed);
                     })
-                    .Where(s => s.Remaining > 0f || (s.Id >= 4358 && s.Id <= 4805))
+                    .Where(s => s.Remaining > 0f || (s.Id >= 4358 && s.Id <= 4369) || (s.Id >= 4803 && s.Id <= 4805) || (s.Id >= 5328 && s.Id <= 5335))
                     .Select(s => (s.Id, s.Remaining))
                     .ToList();
             }

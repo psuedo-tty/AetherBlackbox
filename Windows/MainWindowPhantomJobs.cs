@@ -12,13 +12,15 @@ namespace AetherBlackbox.Windows
             { 4358, 216872 }, { 4359, 216873 }, { 4360, 216874 }, { 4361, 216875 },
             { 4362, 216876 }, { 4363, 216877 }, { 4364, 216878 }, { 4365, 216879 },
             { 4366, 216880 }, { 4367, 216881 }, { 4368, 216882 }, { 4369, 216883 },
-            { 4803, 216884 }, { 4804, 216885 }, { 4805, 216886 }
+            { 4803, 216884 }, { 4804, 216885 }, { 4805, 216886 },
+            { 5328, 216887 }, { 5329, 216888 }, { 5330, 216889 }, { 5331, 216890 },
+            { 5332, 216891 }, { 5333, 216892 }, { 5334, 216893 }, { 5335, 216894 }
         };
 
         public uint GetActivePhantomJobIconId(ulong entityId, float timeOffset)
         {
             // Use the replay's TerritoryTypeId instead of the current client state
-            if (ActiveDeathReplay == null || (ActiveDeathReplay.TerritoryTypeId != 1197 && ActiveDeathReplay.TerritoryTypeId != 1252))
+            if (ActiveDeathReplay == null || (ActiveDeathReplay.TerritoryTypeId != 1197 && ActiveDeathReplay.TerritoryTypeId != 1252 && ActiveDeathReplay.TerritoryTypeId != 1346))
                 return 0;
 
             var statuses = GetActiveStatuses(ActiveDeathReplay.ReplayData, (uint)entityId, timeOffset);
